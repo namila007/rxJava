@@ -1,4 +1,4 @@
-package me.namila.rx;
+package me.namila.rx.rxjava2;
 
 import com.github.javafaker.Faker;
 import io.reactivex.Observable;
@@ -10,13 +10,15 @@ public class ObsCreate {
   @SuppressWarnings("unchecked")
   public static void main(String[] args) throws InterruptedException {
 
-    Observable[] arr = new Observable[] { fromCallable(), justWithScheduler(), fromCallable(), justWithoutScheduler(),
-        justWithScheduler() };
+//    Observable[] arr = new Observable[] { fromCallable(), justWithScheduler(), fromCallable(), justWithoutScheduler(),
+//        justWithScheduler() };
+//
+//    Observable.range(0, 5).flatMap(i -> arr[i].subscribeOn(Schedulers.newThread())).subscribeOn(Schedulers.newThread())
+//        .subscribe(obsSub());
+//
+//    System.out.println("----------------");
+    justWithScheduler().subscribe();
 
-    Observable.range(0, 5).flatMap(i -> arr[i].subscribeOn(Schedulers.newThread())).subscribeOn(Schedulers.newThread())
-        .subscribe(obsSub());
-
-    System.out.println("----------------");
 
     Thread.sleep(2000); //wating for threads to complete
 
@@ -33,10 +35,12 @@ public class ObsCreate {
   }
 
   public static Observable<Integer> justWithScheduler() {
-    return Observable.just(1, 2, 3).subscribeOn(Schedulers.newThread()).observeOn(Schedulers.computation()).doOnNext(
-        x -> System.out.println("w/ justWithScheduler " + Thread.currentThread().getName())).doOnComplete(() -> {
-      System.out.println("justWithScheduler ------" + Thread.currentThread().getName());
-    }).map(x -> x * 1000);
+    return Observable.just(1, 2, 3).subscribeOn(Schedulers.newThread())
+            .observeOn(Schedulers.computation())
+            .doOnNext(
+                    x -> System.out.println("w/ justWithScheduler " + Thread.currentThread().getName())).doOnComplete(() -> {
+              System.out.println("justWithScheduler ------" + Thread.currentThread().getName());
+            }).map(x -> x * 1000);
   }
 
   public static Observable<Integer> justWithoutScheduler() {

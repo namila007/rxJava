@@ -1,4 +1,4 @@
-package me.namila.rx;
+package me.namila.rx.rxjava2;
 
 import com.github.javafaker.Faker;
 import io.reactivex.Observable;
@@ -17,11 +17,11 @@ public class Rx1 {
     });
 
     getThreads().subscribeOn(Schedulers.newThread()).observeOn(Schedulers.newThread()).doOnNext(
-        x -> System.out.println(x + " ----- " + Thread.currentThread().getName())).subscribe(x -> {
+            x -> System.out.println(x + " ----- " + Thread.currentThread().getName())).subscribe(x -> {
       System.out.println(Thread.currentThread().getName());
       System.out.println(x);
     });
-    Thread.sleep(1000);
+    Thread.sleep(9000);
   }
 
   //  public static Flowable<Integer> getValue() {
@@ -38,6 +38,7 @@ public class Rx1 {
 
   public static Observable<Integer> randomValue() {
     return Observable.create(x -> {
+
       x.onNext(2);
       x.onComplete();
     });
